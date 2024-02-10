@@ -2,7 +2,7 @@
 """ 0. Regex-ing """
 import re
 import csv
-import os
+from os import getenv
 import logging
 from typing import List
 import mysql.connector
@@ -67,7 +67,7 @@ def get_db() -> mysql.connetor.connection.MySQLConnection:
     """
     function that returns a connector to the database object
     """
-    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_user = getenv("PERSONAL_DATA_DB_USERNAME", "root")
     db_password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
     db_host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = getenv("PERSONAL_DATA_DB_NAME")
