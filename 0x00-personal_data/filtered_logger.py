@@ -2,7 +2,7 @@
 """ 0. Regex-ing """
 import re
 import csv
-import os
+from os import getenv
 import logging
 from typing import List
 import mysql.connector
@@ -67,10 +67,10 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     function that returns a connector to the database object
     """
-    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    db_user = getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = getenv("PERSONAL_DATA_DB_NAME")
 
     connection = mysql.connector.connect(
             user=db_user,
@@ -79,3 +79,26 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
             database=db_name
             )
     return connection
+
+
+def main() -> str:
+    """
+    obtain a database connection using get_db and retrieve all
+    rows in the users table and display each row
+    """
+    logger = get_logger()
+    db_connection = get_db()
+
+    cursor = db_connection.cursor()
+    cursor.execute("SELECT * FROM users")
+
+    fields = cursor.column_names
+    for row in cursor:
+        message = "".join("{}={}; ".format(k, v) for k, v in zip(fields, row))
+        logger.info(message.strip())
+    cursor.close()
+    db_connection.close()
+
+
+if __name__ == "__main__":
+    main()
