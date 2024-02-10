@@ -2,7 +2,7 @@
 """ 0. Regex-ing """
 import re
 import csv
-from os
+import os
 import logging
 from typing import List
 import mysql.connector
