@@ -2,8 +2,10 @@
 """ 0. Regex-ing """
 import re
 import csv
+import os
 import logging
 from typing import List
+import mysql.connector
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
@@ -59,3 +61,21 @@ def get_logger() -> logging.Logger:
 
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> mysql.connetor.connection.MySQLConnection:
+    """
+    function that returns a connector to the database object
+    """
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = getenv("PERSONAL_DATA_DB_NAME")
+
+    connection = mysql.connector.connect(
+            user=db_user,
+            password=db_password,
+            host=db_host,
+            database=db_name
+            )
+    return connection
