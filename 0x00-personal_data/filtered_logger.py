@@ -57,7 +57,7 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     handler = logging.StreamHandler()
-    handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+    handler.setFormatter(RedactingFormatter(fields=list(PII_FIELDS)))
 
     logger.addHandler(handler)
     return logger
@@ -81,7 +81,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return connection
 
 
-def main() -> str:
+def main():
     """
     obtain a database connection using get_db and retrieve all
     rows in the users table and display each row
