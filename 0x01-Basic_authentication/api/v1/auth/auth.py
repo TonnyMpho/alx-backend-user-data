@@ -8,14 +8,19 @@ class Auth:
     """ 3. Auth class
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """ method that reqiure authorization
-        """
-        return False
+        """ Check if authentication is required for the given path """
+        if path is None or excluded_paths is None:
+            return True
+
+        path = path.rstrip('/') + '/'
+        if path in excluded_paths:
+            return False
+        return True
 
     def authorization_header(self, request=None) -> str:
-        """ method that checks authorization headers """
+        """ Get the authorization header from the request """
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """ method that checks if the user is authorized """
+        """ Get the current user from the request """
         return None
