@@ -23,7 +23,7 @@ def auth_session():
         return jsonify({'error': 'no user found for thid email'}), 404
 
     if not user[0].is_valid_password(password):
-        return jsonify({ "error": "wrong password" }), 401
+        return jsonify({"error": "wrong password"}), 401
 
     from api.v1.app import auth
 
@@ -34,7 +34,8 @@ def auth_session():
     return response
 
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
 def logout():
     """ logout the user and delete the session cookie
     """
