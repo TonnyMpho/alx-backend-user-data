@@ -64,4 +64,4 @@ class DB:
                     raise ValueError
             self._session.commit()
         except NoResultFound as e:
-            raise e
+            raise ValueError 
