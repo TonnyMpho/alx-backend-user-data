@@ -34,10 +34,10 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """method that returns a User object
         """
-        new_user = User(email=email, hashed_password=hashed_password)
-        self._session.add(new_user)
+        user = User(email=email, hashed_password=hashed_password)
+        self._session.add(user)
         self._session.commit()
-        return new_user
+        return user
 
     def find_user_by(self, **kwargs) -> User:
         """ returns a user found, filtered by the input arguments
@@ -48,4 +48,20 @@ class DB:
                 raise NoResultFound
             return user
         except InvalidRequestError as e:
+            raise e
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """method to update the user’s attributes as passed in the
+        method’s arguments then commit changes to the database
+        """
+        try:
+            user = self.find_user_by(id=user_id)
+
+            for key, val in kwargs.items():
+                if hasattr(user, key):
+                    setattr(user, key, val)
+                else:
+                    raise ValueError
+            self._session.commit()
+        except NoResultFound as e:
             raise e
