@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """DB module
 """
 from sqlalchemy import create_engine
@@ -62,3 +63,4 @@ class DB:
             else:
                 raise ValueError
         self._session.commit()
+        return None
